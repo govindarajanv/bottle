@@ -9,7 +9,6 @@ def index():
 @error(404)
 
 :
-
 def not_found(error):
     # if authorization fails
     return "<h1>Not Found</h1>"
