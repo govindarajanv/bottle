@@ -10,5 +10,4 @@ def index():
 def anothercontextroute():
     return ("Different context route")
 
-
 run(host="localhost", port=1234, reloader=True, debug=True)
