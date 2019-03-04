@@ -1,13 +1,13 @@
-from bottle import requests, run, route
+from bottle import request, run, route
 
 
 @route('/', method=['GET', 'POST', 'DELETE'])
 def index():
-    if requests.method == 'GET':
+    if request.method == 'GET':
         return "GET using Bottle: This is your response"
-    elif requests.method == 'POST':
+    elif request.method == 'POST':
         return "You have passed 1234"
-    elif requests.method == 'DELETE':
+    elif request.method == 'DELETE':
         return "Welcome to delete operation using Bottle framework"
 
 
