@@ -23,6 +23,7 @@ def show_device(db, devicename):
 
 
 # http://localhost:1234/show?id=1&name=laptop
+
 @route('/show')
 def show_query():
     os = request.query.os or None
