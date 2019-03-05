@@ -25,23 +25,28 @@ def show_device(db, devicename):
 # http://localhost:1234/show?id=1&name=laptop
 
 @route('/show')
-def show_query():
+def show_query(db):
     os = request.query.os or None
     id = request.query.id or None
     name = request.query.name or None
 
     querystring = []
     if os:
-        querystring.append('os={}'.format(os))
+        querystring.append("os='{}'".format(os))
     if id:
         querystring.append('id={}'.format(id))
     if name:
-        querystring.append('name={}'.format(name))
+        querystring.append("name='{}'".format(name))
 
     if len(querystring) == 0:
         return "Invalid query"
     else:
-        return ' AND '.join(querystring)
-
-
+        query = "SELECT id,os,name from devices where {}".format(' AND '.join(querystring))
+        command = db.execute(query)
+        row = command.fetchone()
+        if row:
+            return template('{{id}},{{name}},{{os}}', id=row['id'], name=row['name'], os=row['os'])
+        else:
+            return template("The specified device with specifications {{name}}, does not exist",
+                            name=' AND '.join(querystring))
 run(host="localhost", port=1234, debug=True)
