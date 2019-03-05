@@ -1,4 +1,4 @@
-from bottle import run, route, template, install
+from bottle import run, route, template, install, request
 # pip install bottle_sqlite
 
 from bottle_sqlite import SQLitePlugin
@@ -20,6 +20,27 @@ def show_device(db, devicename):
         return template('{{id}},{{name}},{{os}}', id=row['id'], name=row['name'], os=row['os'])
     else:
         return template("The specified device {{name}} does not exist", name=devicename)
+
+
+# http://localhost:1234/show?id=1&name=laptop
+@route('/show')
+def show_query():
+    os = request.query.os or None
+    id = request.query.id or None
+    name = request.query.name or None
+
+    querystring = []
+    if os:
+        querystring.append('os={}'.format(os))
+    if id:
+        querystring.append('id={}'.format(id))
+    if name:
+        querystring.append('name={}'.format(name))
+
+    if len(querystring) == 0:
+        return "Invalid query"
+    else:
+        return ' AND '.join(querystring)
 
 
 run(host="localhost", port=1234, debug=True)
