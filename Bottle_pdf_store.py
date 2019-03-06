@@ -1,12 +1,14 @@
-from bottle import run, route, template, get, post, request
+from bottle import run, route, template, get, post, request, static_file
 import os
 
 
+# http://localhost:1234
 @route('/')
 def index():
     return template('index', uploads=os.listdir(r'./uploads'))
 
 
+#http://localhost:1234/upload
 @get('/upload')
 def upload():
     return '''
@@ -29,5 +31,10 @@ def upload():
     upload.save(path, overwrite=True)
     return 'OK'
 
+
+# http://localhost:1234/show/sample.txt
+@route('/uploads/<file>')
+def show(file):
+    return static_file(file, root=r'./uploads/')
 
 run(host="localhost", port=1234, debug=True)
