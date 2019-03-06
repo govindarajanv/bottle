@@ -1,5 +1,5 @@
-% if len(uploads) > 0:
-<h1> List of uploads </h1>
+% if len(uploads) > 0 or len(uploads) != None:
+    <h1> List of uploads </h1>
     <ul>
     % for upload in uploads:
         <li> {{upload}}</li>
